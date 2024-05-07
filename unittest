@@ -1,0 +1,142 @@
+#!/bin/bash
+
+# Initialize necessary variables
+#TESTUSER=`id -u -n`
+#TESTGROUP=`id -g -n`
+
+# Heusch code
+#PATH=$PATH:/opt/jetbrains/apps/CLion/ch-0/233.13135.93/bin/ninja/linux/x64/
+#
+## Cleanup previous builds & rebuild
+#rm -rf Makefile CMakeFiles CMakeCache.txt cmake_install.cmake cmake-build-debug \
+#	build.ninja .ninja_deps .ninja_log cat Testing .cmake BusyBox testdir grep ls sort wc
+#
+#cmake -G "Unix Makefiles" .
+#make
+
+BUILD_DIR="unit-test-output"  # New build directory name
+
+# way cleaner code for this!!!
+rm -rf "$BUILD_DIR"  # Remove previous build directory
+mkdir -p "$BUILD_DIR"  # Create a new build directory
+cd "$BUILD_DIR"  # Move to the build directory
+
+# Configure and build the project
+cmake ..
+make
+
+mkdir testdir
+cd testdir 
+
+cat > file1.in << EOF
+Am Bahndamm steht ein Sauerampfer
+sieht nur Züge, niemals Dampfer.
+Armer, armer Sauerampfer.
+EOF
+
+touch -m -t 196907202117 file1.in
+
+cat > file2.in << EOF
+Kurt Tucholsky
+Das Ideal
+
+Ja, das möchste:
+Eine Villa im Grünen mit großer Terrasse,
+vorn die Ostsee, hinten die Friedrichstraße;
+mit schöner Aussicht, ländlich-mondän,
+vom Badezimmer ist die Zugspitze zu sehn –
+aber abends zum Kino hast dus nicht weit.
+
+Das Ganze schlicht, voller Bescheidenheit:
+
+Neun Zimmer – nein, doch lieber zehn!
+Ein Dachgarten, wo die Eichen drauf stehn,
+Radio, Zentralheizung, Vakuum,
+eine Dienerschaft, gut gezogen und stumm,
+eine süße Frau voller Rasse und Verve –
+und eine fürs Wochenend, zur Reserve –
+eine Bibliothek und drumherum
+Einsamkeit und Hummelgesumm.
+
+Im Stall: Zwei Ponies, vier Vollbluthengste,
+acht Autos, Motorrad – alles lenkste
+natürlich selber – das wär ja gelacht!
+Und zwischendurch gehst du auf Hochwildjagd.
+
+Ja, und das hab ich ganz vergessen:
+Prima Küche – erstes Essen –
+alte Weine aus schönem Pokal –
+und egalweg bleibst du dünn wie ein Aal.
+Und Geld. Und an Schmuck eine richtige Portion.
+Und noch ne Million und noch ne Million.
+Und Reisen. Und fröhliche Lebensbuntheit.
+Und famose Kinder. Und ewige Gesundheit.
+
+Ja, das möchste!
+
+Aber, wie das so ist hienieden:
+manchmal scheints so, als sei es beschieden
+nur pöapö, das irdische Glück.
+Im Mer fehlt dir irgendein Stück.
+Hast du Geld, dann hast du nicht Käten;
+hast du die Frau, dann fehln dir Moneten –
+hast du die Geisha, dann stört dich der Fächer:
+bald fehlt uns der Wein, bald fehlt uns der Becher.
+
+Etwas ist immer.
+Tröste dich.
+
+Jedes Glück hat einen kleinen Stich.
+Wir möchten so viel: Haben. Sein. Und gelten.
+Daß einer alles hat:
+das ist selten.
+EOF
+
+touch -m -t 202404040600 file2.in
+
+mkdir dir1
+
+touch -m -t 200001010000 dir1/.file1
+touch -m -t 200001010000 dir1
+
+# checks single file not hole dir
+# Test passed
+for ARGS in "" "-l" ; do
+	/bin/ls $ARGS file1.in file2.in > file1.out
+
+	../ls $ARGS file1.in file2.in > file2.out
+
+	if diff -w file1.out file2.out ; then
+		echo Test 1 ok
+	else
+		echo Test 1 failed
+		exit 1
+fi
+done
+
+# Test passed
+for ARGS in "" "-lwc" "-l -c" "-w -c" ; do
+	/bin/wc $ARGS file1.in file2.in > file3.out
+
+	../wc $ARGS file1.in file2.in > file4.out
+
+	if diff -w file3.out file4.out ; then
+		echo Test 2 ok
+	else
+		echo Test 2 failed
+		exit 2
+	fi
+done
+
+for ARGS in "" "-r" ; do
+	/bin/sort $ARGS file2.in > file5.out
+
+	../sort $ARGS file2.in > file6.out
+
+	if diff -w file5.out file6.out ; then
+		echo Test 3 ok
+	else
+		echo Test 3 failed
+		exit 2
+	fi
+done
