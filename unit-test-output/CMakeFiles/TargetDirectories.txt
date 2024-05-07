@@ -1,3 +1,0 @@
-/tank/home/22dupa1bif/Programmieren3/Blatt_2/BusyBox/unit-test-output/CMakeFiles/BusyBox.dir
-/tank/home/22dupa1bif/Programmieren3/Blatt_2/BusyBox/unit-test-output/CMakeFiles/edit_cache.dir
-/tank/home/22dupa1bif/Programmieren3/Blatt_2/BusyBox/unit-test-output/CMakeFiles/rebuild_cache.dir
