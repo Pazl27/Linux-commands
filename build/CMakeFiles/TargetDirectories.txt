@@ -1,3 +1,0 @@
-/home/paul/dev/c++/Programmieren3/Blatt_2/BusyBox/build/CMakeFiles/BusyBox.dir
-/home/paul/dev/c++/Programmieren3/Blatt_2/BusyBox/build/CMakeFiles/edit_cache.dir
-/home/paul/dev/c++/Programmieren3/Blatt_2/BusyBox/build/CMakeFiles/rebuild_cache.dir

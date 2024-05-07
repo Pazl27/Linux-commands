@@ -1,1 +1,0 @@
-/bin/cc CMakeFiles/BusyBox.dir/main.c.o -o BusyBox 
