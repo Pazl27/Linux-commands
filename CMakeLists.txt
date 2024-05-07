@@ -3,7 +3,11 @@ project(BusyBox C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(BusyBox src/main.c)
+add_executable(BusyBox src/main.c
+        src/ls.h
+        src/ls.c
+        src/cat.h
+        src/cat.c)
 
 add_custom_command(
         TARGET ${PROJECT_NAME}  POST_BUILD
