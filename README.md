@@ -22,6 +22,7 @@ cat [OPTION] [FILE]
 - `-n`: prints the line numbers
 - `-v`: prints non-printing characters
 - `-E`: prints a $ at the end of each line
+***
 
 ## Grep
 The grep command is used to search for a specific string in a file.
@@ -31,7 +32,7 @@ grep [OPTION] [STRING] [FILE]
 ### Options
 - `-i`: case insensitive
 - `-v`: prints the lines that do not contain the string
-
+***
 ## Ls
 The ls command lists the files and directories in the current directory.
 It also can list the file given to it not only directories.
@@ -44,7 +45,7 @@ ls [OPTION] [FILE/DIR]
 - `-l`: long listing format
 - `-a`: lists all files including hidden files
 - `-d`: lists the current directory
-
+***
 ## Sort
 The sort command is used to sort the lines of a file.
 It sorts the lines alphabetically by default.
@@ -53,7 +54,7 @@ sort [OPTION] [FILE]
 ``` 
 ### Options
 - `-r`: reverse the order
-
+***
 ## Wc
 The wc command is used to count the number of lines, words and characters in a file.
 By default, it prints the number of lines, words and characters.
