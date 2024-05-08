@@ -7,7 +7,15 @@ add_executable(BusyBox src/main.c
         src/ls.h
         src/ls.c
         src/cat.h
-        src/cat.c)
+        src/cat.c
+        src/grep.h
+        src/grep.c
+        src/regex.h
+        src/regex.c
+        src/wc.h
+        src/wc.c
+        src/sort.h
+        src/sort.c)
 
 add_custom_command(
         TARGET ${PROJECT_NAME}  POST_BUILD
