@@ -7,6 +7,15 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+/*
+ * sort: sort the lines of a file
+ * @param argc: number of arguments
+ * @param argv: array of arguments
+ * @return 0 if successful, 1 if error
+ *
+ * This function sorts the lines of a file in lexicographical order.
+ * FIX: The process of flags
+ */
 int sort(int argc, char *argv[]) {
     bool reverse = false;
 
@@ -45,6 +54,16 @@ int sort(int argc, char *argv[]) {
     return 0;
 }
 
+/*
+ * comparator: compare two strings
+ * @param p1: first string
+ * @param p2: second string
+ * @return 0 if equal, <0 if p1 < p2, >0 if p1 > p2
+ *
+ * This function is used by qsort to compare two strings.
+ * It returns 0 if the strings are equal, <0 if the first string is lexicographically
+ * FIX: changed the compare function to strcasecmp
+ */
 int comparator(const void *p1, const void *p2) {
 //    const char **c1=p1;
 //    const char **c2=p2;

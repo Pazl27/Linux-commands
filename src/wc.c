@@ -3,6 +3,17 @@
 #include <string.h>
 #include <stdlib.h>
 
+/*
+ * wc - counts lines, words and characters in a file
+ * @param argc - number of arguments
+ * @param argv - arguments
+ * @return 0 if successful, 1 if failed
+ *
+ * this function scans the arguments for flags and files
+ * sets the flags for lines, words and characters
+ * saves all the file inputs into an array
+ * calls doCount function to count the lines, words and characters
+ */
 int wc(int argc, char *argv[]) {
     if (argc < 2) {
         printf("Wrong Input.");
@@ -67,6 +78,20 @@ int wc(int argc, char *argv[]) {
     return 0;
 }
 
+/*
+ * this function counts the lines, words and characters in a file
+ * @param countLines - flag for counting lines
+ * @param countWords - flag for counting words
+ * @param countChars - flag for counting characters
+ * @param length - number of files
+ * @param files - array of file names
+ * @return 0 if successful, 1 if failed
+ *
+ * goes through the array of file names
+ * opens the file and reads the lines, words and characters
+ * prints the counts for each file
+ * prints the total counts if there are more than one file
+ */
 int doCount(bool countLines, bool countWords, bool countChars, int length, char **files)
 {
     int ins_line = 0;

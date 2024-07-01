@@ -4,7 +4,17 @@
 #include <string.h>
 #include <ctype.h>
 
-
+/*
+ * This function is used to search for a pattern in a file.
+ * @param argc: number of arguments
+ * @param argv: array of arguments
+ * @return: 0 if successful, 1 if failed
+ *
+ * The function first checks if the number of arguments is less than 3, if so, it prints "Wrong Input" and returns 1.
+ * The function then checks for the options in the arguments and sets the case_invert and case_insensitive flags accordingly.
+ * The function then sets the pattern and file variables to the last two arguments.
+ * The function then calls the doGrep function with the case_invert, case_insensitive, pattern and file variables.
+ */
 int grep(int argc, char *argv[]) {
     if ( argc < 3) {
         printf("Wrong Input");
@@ -41,6 +51,23 @@ int grep(int argc, char *argv[]) {
     return 0;
 }
 
+/*
+ * This function is used to search for a pattern in a file.
+ * @param caseInsensitive: flag to indicate if the search should be case-insensitive
+ * @param invertMatch: flag to indicate if the search should be inverted
+ * @param pattern: the pattern to search for
+ * @param file: the file to search in
+ * @return: 0 if successful, 1 if failed
+ *
+ * The function first opens the file and checks if it is NULL, if so, it prints an error message and returns 1.
+ * The function then reads the file line by line and checks if the case_invert and case_insensitive flags are set.
+ * If the case_invert and case_insensitive flags are set, the function converts the pattern and line to lower case and checks if the pattern is not in the line.
+ * If the case_invert flag is set, the function checks if the pattern is not in the line.
+ * If the case_insensitive flag is set, the function converts the pattern and line to lower case and checks if the pattern is in the line.
+ * If none of the flags are set, the function checks if the pattern is in the line.
+ * If the pattern is in the line, the function prints the line.
+ * The function then closes the file and returns 0.
+ */
 int doGrep(bool caseInsensitive, bool invertMatch, char *pattern, const char *file) {
     FILE *f;
     char line[1024];
@@ -87,6 +114,12 @@ int doGrep(bool caseInsensitive, bool invertMatch, char *pattern, const char *fi
     return 0;
 }
 
+/*
+ * This function is used to convert a string to lower case.
+ * @param str: the string to convert to lower case
+ *
+ * The function iterates through the string and converts each character to lower case.
+ */
 void str_to_lower(char *str) {
     while (*str) {
         *str = (char) tolower(*str);

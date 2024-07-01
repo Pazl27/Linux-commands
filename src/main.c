@@ -36,6 +36,12 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+/*
+ * Function that checks if the arg ends with the command
+ * @param arg the argument
+ * @param command the command
+ * @return true if the arg ends with the command, false otherwise
+ */
 bool endsWith(const char *arg, const char *command) {
     char *lastSlash = strrchr(arg, '/');
     return lastSlash == NULL && strcmp(arg, command) == 0 ||

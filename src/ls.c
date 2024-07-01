@@ -9,6 +9,17 @@
 #include <grp.h>
 #include <time.h>
 
+/*
+ * function to process the ls command
+ * @param argc: number of arguments
+ * @param argv: list of arguments
+ * @return: 0 if successful, 1 if failed
+ *
+ * goes through the arguments and sets the flags for the ls command
+ * creates an array of strings for the entries (files or directories)
+ * if no entries are given, it creates an array with the current directory
+ * calls doLs to process the ls command
+ */
 int ls(int argc, char *argv[]) {
     bool list_all = false;
     bool list_dir = false;
@@ -69,6 +80,36 @@ int ls(int argc, char *argv[]) {
     return 0;
 }
 
+/*
+ * function to process the ls command
+ * @param allFiles: flag to list all files
+ * @param longList: flag to list files in long format
+ * @param listDirs: flag to list directories
+ * @param entry_list: list of entries (files or directories)
+ * @param size: number of entries
+ * @return: 0 if successful, 1 if failed
+ *
+ * goes through the list of entries and processes them
+ * it checks if the entry is a file or a directory file=1, file=0
+ *
+ * if it is a file (true) it prints the file name or the file stats if longList is true
+ * calls print_stats to print the file stats
+ *
+ * if it is a directory (false) it creates an array of strings with the names of the files in the directory
+ * it sorts the array of strings with the sort_util function
+ *
+ * if listDirs is true, it prints the directory name or the directory stats if longList is true
+ *
+ * if longList is true it creates a stat struct to get the file stats
+ * it iterates through the array of files/dirs in the directory
+ * creates a string full_path with the path of the file/dir
+ * gets the file stats checks if it is a dir or a regular file
+ * and calls the print_stats function to print the stats
+ *
+ * if allFiles is true, it prints all the files in the directory
+ *
+ * if allFiles is false, it prints all the files in the directory that do not start with '.'
+ */
 int doLs(bool allFiles, bool longList, bool listDirs, char** entry_list, int size) {
     for(int j = 0; j < size; j++) {
         char *name = entry_list[j];
@@ -84,11 +125,11 @@ int doLs(bool allFiles, bool longList, bool listDirs, char** entry_list, int siz
         if (S_ISREG(path_stat.st_mode)) {
             file = true;
         }
-            // Check if it's a directory
+        // Check if it's a directory
         else if (S_ISDIR(path_stat.st_mode)) {
             file = false;
         }
-            // Otherwise, it's some other type of file (e.g., symlink, socket, pipe)
+        // Otherwise, it's some other type of file (e.g., symlink, socket, pipe)
         else {
             exit(1);
         }
@@ -189,6 +230,12 @@ int doLs(bool allFiles, bool longList, bool listDirs, char** entry_list, int siz
     return 0;
 }
 
+/*
+ * function to sort two strings
+ * @param str1: first string
+ * @param str2: second string
+ * @return: 0 if the strings are equal, <0 if str1 is less than str2, >0 if str1 is greater than str2
+ */
 int sort_string( const void *str1, const void *str2 ) {
     char *const *pp1 = str1;
     char *const *pp2 = str2;
@@ -214,10 +261,24 @@ int sort_string( const void *str1, const void *str2 ) {
     return result;
 }
 
+/*
+ * function to sort an array of strings
+ * @param lines: array of strings
+ * @param count: number of strings
+ *
+ * sorts the array of strings using the sort_string function
+ */
 void sort_util(char* lines[], int count) {
     qsort(lines, count, sizeof(*lines), sort_string);
 }
 
+/*
+ * function to print the stats of a file
+ * @param item: file name
+ *
+ * prints the file type, permissions, number of hard links, owner name, group name, file size, last modification time, and file name
+ * checks also the time of the last modification and prints the year if it is more than 6 months ago
+ */
 void print_stats(const char *item) {
     struct stat file_stat;
     if(stat(item, &file_stat) < 0) {
@@ -270,6 +331,15 @@ void print_stats(const char *item) {
     printf(" %s\n", get_file_name(item));
 }
 
+/*
+ * function to get the file name from a path
+ * @param name: path
+ * @return: file name
+ *
+ * finds the last occurrence of '/' or '\\' in the path
+ * if it finds it, it returns the string after the last occurrence
+ * otherwise, it returns the entire path
+ */
 const char* get_file_name(const char* name) {
     const char *filename;
 
@@ -289,6 +359,13 @@ const char* get_file_name(const char* name) {
     return filename;
 }
 
+/*
+ * function to get the month name
+ * @param month: month number
+ * @return: month name
+ *
+ * returns the month name based on the month number
+ */
 const char *month_name(int month) {
     static const char *names[] = {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun",
